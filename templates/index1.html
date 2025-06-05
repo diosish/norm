@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}Phone Number Normalization{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block header_title %}Phone Number Normalization{% endblock %}
+{% block header_subtitle %}Process data and convert phone numbers to a uniform format{% endblock %}
+
+{% block content %}
+<div class="instructions">
+    <div class="instructions-icon">
+        <i class="fas fa-info"></i>
+    </div>
+    <h2>How It Works</h2>
+    <p>Upload an Excel file (.xlsx or .xls) and specify the required columns:</p>
+    <ul>
+        <li><strong>Phone numbers column</strong> - numbers will be converted to 79998887766 format</li>
+        <li><strong>Participant type column</strong> - a separate file will be created for each type</li>
+        <li><strong>Sort column</strong> (optional) - participants will be sorted by this column</li>
+    </ul>
+    <p>Results will be presented as several files for download.</p>
+</div>
+
+<form method="POST" enctype="multipart/form-data" id="upload-form">
+    <div class="form-group">
+        <label for="file">Select Excel file (.xlsx, .xls)</label>
+        <div class="file-input-wrapper" id="file-drop-area">
+            <div id="upload-animation" class="upload-lottie">
+                <lottie-player src="{{ url_for('static', filename='lottie/upload.json') }}" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+            </div>
+            <input type="file" id="file" name="file" accept=".xlsx,.xls" required>
+            <div class="file-input-text" id="file-input-text">Drag and drop file here or click to select</div>
+            <div class="file-name" id="file-name"></div>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <button type="button" id="preview-btn" class="btn btn-secondary">
+            <i class="fas fa-list"></i> Preview Columns
+        </button>
+    </div>
+    
+    <div id="loading" class="loading">
+        <div class="loading-lottie">
+            <lottie-player src="{{ url_for('static', filename='lottie/loading.json') }}" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+        </div>
+        <p>Analyzing database structure...</p>
+    </div>
+    
+    <div id="columns-container">
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i>
+            <span>Select the necessary columns from the list or enter their name/number manually</span>
+        </div>
+        
+        <div class="column-list" id="column-list">
+            <!-- Column list will be populated dynamically -->
+        </div>
+    </div>
+    
+    <div class="columns-row">
+        <div class="form-group">
+            <label for="phone_column">
+                Phone Numbers Column
+                <div class="tooltip">
+                    <i class="fas fa-question-circle"></i>
+                    <span class="tooltip-text">Specify the column containing phone numbers. All numbers will be converted to 79998887766 format.</span>
+                </div>
+            </label>
+            <div class="input-icon">
+                <i class="fas fa-phone"></i>
+                <input type="text" id="phone_column" name="phone_column" class="form-control" 
+                       placeholder="Column name or number" required>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="type_column">
+                Participant Type Column
+                <div class="tooltip">
+                    <i class="fas fa-question-circle"></i>
+                    <span class="tooltip-text">Specify the column containing participant types. A separate file will be created for each unique type.</span>
+                </div>
+            </label>
+            <div class="input-icon">
+                <i class="fas fa-users"></i>
+                <input type="text" id="type_column" name="type_column" class="form-control" 
+                       placeholder="Column name or number" required>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <label for="sort_column">
+            Sort Column (optional)
+            <div class="tooltip">
+                <i class="fas fa-question-circle"></i>
+                <span class="tooltip-text">Specify the column for data sorting. If not specified, the first column will be used.</span>
+            </div>
+        </label>
+        <div class="input-icon">
+            <i class="fas fa-sort-alpha-down"></i>
+            <input type="text" id="sort_column" name="sort_column" class="form-control" 
+                   placeholder="Leave empty to sort by first column">
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary" id="submit-btn">
+            <i class="fas fa-cogs"></i> Process Database
+        </button>
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/fileHandler.js') }}"></script>
+<script src="{{ url_for('static', filename='js/columnSelector.js') }}"></script>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}

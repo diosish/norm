@@ -1,0 +1,6 @@
+/* Дополнительные стили для главной страницы */
+.success-animation {
+    width: clamp(100px, 20vw, 150px);
+    height: clamp(100px, 20vw, 150px);
+    margin: 0 auto var(--spacing-lg);
+}

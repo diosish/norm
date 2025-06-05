@@ -1,0 +1,184 @@
+/* Mobile devices (portrait) */
+@media (max-width: 480px) {
+    :root {
+        --border-radius: 8px;
+    }
+
+    .card {
+        padding: var(--spacing-md);
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: var(--spacing-xs);
+        padding: 0.8rem 1rem;
+    }
+
+    .file-input-wrapper {
+        height: 120px;
+    }
+
+    .upload-lottie {
+        width: 60px;
+        height: 60px;
+    }
+
+    .file-name {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .column-item {
+        padding: 0.6rem 0.8rem;
+    }
+
+    .instructions-icon {
+        top: -10px;
+        left: -10px;
+        width: 25px;
+        height: 25px;
+        font-size: 0.7rem;
+    }
+
+    .tooltip .tooltip-text {
+        width: 160px;
+        padding: 8px;
+        font-size: 0.75rem;
+    }
+
+    .summary-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .success-animation {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+/* Mobile devices (landscape) and small tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+    .card {
+        padding: var(--spacing-lg);
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .tooltip .tooltip-text {
+        width: 180px;
+    }
+
+    .file-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    }
+}
+
+/* Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        width: 90%;
+    }
+}
+
+/* Small laptops */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .container {
+        width: 85%;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1281px) {
+    .container {
+        width: 1200px;
+    }
+
+    :root {
+        --font-size-small: 0.9rem;
+        --font-size-base: 1rem;
+        --font-size-medium: 1.2rem;
+        --font-size-large: 1.8rem;
+        --font-size-xlarge: 2.5rem;
+    }
+
+    .card {
+        padding: 3rem;
+    }
+
+    .file-grid {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    }
+}
+
+/* If device supports hover */
+@media (hover: hover) {
+    .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+    }
+
+    .column-item:hover {
+        background-color: #f0f7ff;
+    }
+
+    .file-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .file-card:hover .file-icon {
+        transform: scale(1.1);
+    }
+}
+
+/* If device doesn't support hover (touchscreens) */
+@media (hover: none) {
+    .btn:active {
+        transform: translateY(1px);
+    }
+
+    .column-item:active {
+        background-color: rgba(67, 97, 238, 0.1);
+    }
+
+    .file-card:active {
+        transform: translateY(-5px);
+    }
+}
+
+/* For devices with different aspect ratios */
+@media (min-aspect-ratio: 2/1) {
+    .header-content {
+        max-width: 70%;
+    }
+}
+
+@media (max-aspect-ratio: 1/1) {
+    .file-input-wrapper {
+        height: 160px;
+    }
+}
+
+/* For high and narrow screens (e.g., iPhone X) */
+@media (max-height: 700px) and (max-width: 380px) {
+    .success-animation {
+        width: 60px;
+        height: 60px;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .summary {
+        padding: var(--spacing-sm);
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+    }
+
+    .file-icon {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-xs);
+    }
+}

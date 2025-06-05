@@ -1,0 +1,14 @@
+{% macro file_card(filename, record_count, theme_class='', icon_class='fas fa-file-excel', btn_class='btn-primary', download_url='', button_text='Download File') %}
+<div class="file-card {{ theme_class }}">
+    <div class="file-card-content">
+        <div class="file-icon">
+            <i class="{{ icon_class }}"></i>
+        </div>
+        <div class="file-name">{{ filename }}</div>
+        <div class="file-info">Records: {{ record_count }}</div>
+        <a href="{{ download_url }}" class="btn {{ btn_class }}">
+            <i class="fas fa-download"></i> {{ button_text }}
+        </a>
+    </div>
+</div>
+{% endmacro %}

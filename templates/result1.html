@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% from 'components/file_card.html' import file_card %}
+
+{% block title %}Processing Results{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">
+{% endblock %}
+
+{% block header_title %}Processing Results{% endblock %}
+{% block header_subtitle %}Database successfully normalized{% endblock %}
+
+{% block content %}
+<div class="success-animation">
+    <lottie-player src="{{ url_for('static', filename='lottie/success.json') }}" background="transparent" speed="1" style="width: 100%; height: 100%;" autoplay></lottie-player>
+</div>
+
+<h2 class="text-center">Database Processing Complete</h2>
+<p class="text-center">Original file: <strong>{{ original_filename }}</strong></p>
+
+<div class="summary">
+    <h3><i class="fas fa-chart-pie"></i> Results Summary</h3>
+    <div class="summary-stats">
+        <div class="stat-item">
+            <i class="fas fa-table stat-icon"></i>
+            <span class="stat-number total">{{ total_count }}</span>
+            <span class="stat-label">Total Records</span>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-check-circle stat-icon"></i>
+            <span class="stat-number success">{{ success_count }}</span>
+            <span class="stat-label">Successfully Processed</span>
+        </div>
+        {% if has_errors %}
+        <div class="stat-item">
+            <i class="fas fa-exclamation-triangle stat-icon"></i>
+            <span class="stat-number error">{{ error_count }}</span>
+            <span class="stat-label">With Errors</span>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% if has_errors %}
+<div class="alert alert-warning">
+    <i class="fas fa-exclamation-triangle"></i>
+    <span>Problematic phone numbers detected. You can download a separate file with errors for review and correction.</span>
+</div>
+{% else %}
+<div class="alert alert-success">
+    <i class="fas fa-check-circle"></i>
+    <span>All phone numbers were successfully processed!</span>
+</div>
+{% endif %}
+
+<div class="download-section">
+    <h3 class="section-title"><i class="fas fa-download"></i> Main Files</h3>
+
+    <div class="download-files">
+        {{ file_card(
+            filename=all_valid_filename,
+            record_count=success_count,
+            icon_class='fas fa-file-excel',
+            btn_class='btn-primary download-file-btn',
+            download_url=url_for('download_file', result_id=result_id, filename=all_valid_filename),
+            button_text='Download Processed File'
+        ) }}
+
+        {% if has_errors %}
+        {{ file_card(
+            filename=invalid_filename,
+            record_count=error_count,
+            theme_class='file-error',
+            icon_class='fas fa-exclamation-triangle',
+            btn_class='btn-warning',
+            download_url=url_for('download_file', result_id=result_id, filename=invalid_filename),
+            button_text='Download Errors File'
+        ) }}
+        {% endif %}
+    </div>
+
+    {% if type_files %}
+    <h3 class="section-title"><i class="fas fa-users"></i> Files by Participant Type</h3>
+
+    <div class="file-grid">
+        {% for type_name, file_info in type_files.items() %}
+        {{ file_card(
+            filename=type_name,
+            record_count=file_info.count,
+            theme_class='file-type',
+            icon_class='fas fa-users',
+            btn_class='btn-info',
+            download_url=url_for('download_file', result_id=result_id, filename=file_info.filename),
+            button_text='Download File'
+        ) }}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div style="text-align: center; margin-top: var(--spacing-lg);">
+        <a href="{{ url_for('index') }}" class="btn btn-back">
+            <i class="fas fa-arrow-left"></i> Return to Main Page
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/result.js') }}"></script>
+{% endblock %}

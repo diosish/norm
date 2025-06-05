@@ -1,0 +1,209 @@
+.btn {
+    display: inline-block;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    padding: 0.9rem 1.5rem;
+    font-size: var(--font-size-base);
+    line-height: 1.5;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    cursor: pointer;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: -100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.btn:hover::after {
+    left: 100%;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-warning {
+    background: linear-gradient(135deg, var(--warning-color), #fa6b9b);
+    color: white;
+}
+
+.btn-warning:hover {
+    box-shadow: 0 5px 15px rgba(247, 37, 133, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-info {
+    background: linear-gradient(135deg, var(--accent-color), #7ad7f5);
+    color: white;
+}
+
+.btn-info:hover {
+    box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: #f0f2f5;
+    color: var(--dark-color);
+}
+
+.btn-secondary:hover {
+    background-color: #e1e5ee;
+    transform: translateY(-2px);
+}
+
+.btn-back {
+    background-color: #f0f2f5;
+    color: var(--dark-color);
+    margin-top: var(--spacing-lg);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 2rem;
+}
+
+.btn-back:hover {
+    background-color: #e1e5ee;
+    transform: translateY(-2px);
+}
+
+.btn i {
+    margin-right: var(--spacing-xs);
+}
+
+.alert {
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: flex-start;
+    line-height: 1.4;
+    font-size: var(--font-size-base);
+}
+
+.alert i {
+    margin-right: var(--spacing-xs);
+    font-size: 1.2rem;
+    margin-top: 2px;
+}
+
+.alert-danger {
+    background-color: #fff5f7;
+    color: var(--warning-color);
+    border-left: 4px solid var(--warning-color);
+}
+
+.alert-warning {
+    background-color: #fff5f7;
+    color: var(--warning-color);
+    border-left: 4px solid var(--warning-color);
+}
+
+.alert-success {
+    background-color: #edfaf3;
+    color: var(--success-color);
+    border-left: 4px solid var(--success-color);
+}
+
+.alert-info {
+    background-color: #f0f7ff;
+    color: var(--primary-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.instructions {
+    background-color: #f8f9fa;
+    border-left: 4px solid var(--primary-color);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    position: relative;
+    font-size: var(--font-size-base);
+}
+
+.instructions-icon {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: var(--font-size-small);
+}
+
+.instructions ul {
+    padding-left: var(--spacing-lg);
+    margin-top: var(--spacing-sm);
+}
+
+.instructions li {
+    margin-bottom: var(--spacing-xs);
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    margin-left: 0.5rem;
+    color: var(--gray-color);
+    cursor: help;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: clamp(180px, 80vw, 200px);
+    background-color: var(--dark-color);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 100;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: var(--font-size-small);
+    font-weight: normal;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--dark-color) transparent transparent transparent;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
