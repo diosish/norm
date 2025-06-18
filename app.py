@@ -1,12 +1,58 @@
 from flask import Flask, render_template, request, send_file, flash, redirect, url_for, session, jsonify
 import os
 import uuid
+from openpyxl import Workbook
+from openpyxl.styles import Font, Border, Side, PatternFill
+from openpyxl.utils.dataframe import dataframe_to_rows
 from datetime import timedelta
 import json
 
 # Import our custom modules
 from normalizer import normalize_and_separate_by_type
 from helpers import allowed_file, clean_old_files, ensure_directories
+
+
+def save_excel_clean_format(df, filepath):
+    """
+    Сохраняет DataFrame в Excel файл с обычным форматированием заголовков
+    """
+    # Создаем новую рабочую книгу
+    wb = Workbook()
+    ws = wb.active
+
+    # Добавляем данные из DataFrame
+    for r in dataframe_to_rows(df, index=False, header=True):
+        ws.append(r)
+
+    # Создаем обычный стиль для всех ячеек
+    normal_font = Font(
+        bold=False,  # Убираем жирный
+        underline='none',  # Убираем подчеркивание
+        name='Calibri',  # Стандартный шрифт
+        size=11,  # Стандартный размер
+        color='000000'  # Черный цвет
+    )
+
+    # Убираем границы
+    no_border = Border(
+        left=Side(style=None),
+        right=Side(style=None),
+        top=Side(style=None),
+        bottom=Side(style=None)
+    )
+
+    # Убираем заливку
+    no_fill = PatternFill(fill_type=None)
+
+    # Применяем стили ко всем ячейкам включая заголовки
+    for row in ws.iter_rows():
+        for cell in row:
+            cell.font = normal_font
+            cell.border = no_border
+            cell.fill = no_fill
+
+    # Сохраняем файл
+    wb.save(filepath)
 
 app = Flask(__name__)
 app.secret_key = "phone_normalizer_secret_key"
@@ -86,13 +132,13 @@ def index():
 
                 # Save the file with all valid records
                 valid_path = os.path.join(result_dir, all_valid_filename)
-                valid_df.to_excel(valid_path, index=False, engine='openpyxl')
+                save_excel_clean_format(valid_df, valid_path)
 
                 # Save error data only if available
                 has_errors = not invalid_df.empty
                 if has_errors:
                     invalid_path = os.path.join(result_dir, invalid_filename)
-                    invalid_df.to_excel(invalid_path, index=False, engine='openpyxl')
+                    save_excel_clean_format(invalid_df, invalid_path)
 
                 # Save separate files for each participant type
                 type_files = {}
@@ -103,7 +149,7 @@ def index():
                     type_path = os.path.join(result_dir, type_filename)
 
                     # Save the DataFrame
-                    type_df.to_excel(type_path, index=False, engine='openpyxl')
+                    save_excel_clean_format(type_df, type_path)
 
                     # Save file information
                     type_files[type_name] = {
